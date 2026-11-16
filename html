@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Timer Belajar Pomodoro</title>
+    <style>
+        /* CSS: Mengatur tampilan timer */
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            margin-top: 80px;
+        }
+        #waktu {
+            font-size: 70px;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #d9534f;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Timer Fokus Belajar</h2>
+    
+    <!-- HTML: Tampilan angka waktu & tombol -->
+    <div id="waktu">25:00</div>
+
+    <button onclick="mulaiTimer()">Mulai</button>
+    <button onclick="jedaTimer()">Jeda</button>
+    <button onclick="resetTimer()">Reset</button>
+
+    <script>
+        // JavaScript: Logika hitung mundur
+        let detikTersisa = 25 * 60; // 25 menit dikali 60 detik
+        let timerBerjalan = null;
+
+        function perbaruiTampilan() {
+            let menit = Math.floor(detikTersisa / 60);
+            let detik = detikTersisa % 60;
+
+            // Tambahkan angka 0 di depan jika di bawah 10 (misal 09:05)
+            let formatMenit = menit < 10 ? "0" + menit : menit;
+            let formatDetik = detik < 10 ? "0" + detik : detik;
+
+            document.getElementById("waktu").innerText = formatMenit + ":" + formatDetik;
+        }
+
+        function mulaiTimer() {
+            if (timerBerjalan !== null) return; // Cegah tombol diklik berkali-kali
+
+            // Jalankan fungsi setiap 1000 milidetik (1 detik)
+            timerBerjalan = setInterval(function() {
+                if (detikTersisa > 0) {
+                    detikTersisa--;
+                    perbaruiTampilan();
+                } else {
+                    clearInterval(timerBerjalan);
+                    alert("Waktu belajar selesai! Saatnya istirahat 5 menit.");
+                }
+            }, 1000);
+        }
+
+        function jedaTimer() {
+            clearInterval(timerBerjalan);
+            timerBerjalan = null;
+        }
+
+        function resetTimer() {
+            jedaTimer();
+            detikTersisa = 25 * 60;
+            perbaruiTampilan();
+        }
+    </script>
+
+</body>
+</html>
